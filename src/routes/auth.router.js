@@ -9,16 +9,20 @@ authRouter.get(
     scope: ['profile', 'email'],
   })
 );
-
-authRouter.get('/auth/google/callback', passport.authenticate('google'));
+authRouter.get(
+  '/auth/google/callback',
+  passport.authenticate('google'),
+  (req, res) => {
+    res.redirect('/surveys');
+  }
+);
 
 authRouter.get('/auth/github', passport.authenticate('github'));
-
 authRouter.get('/auth/github/callback', passport.authenticate('github'));
 
 authRouter.get('/api/logout', (req, res) => {
   req.logout();
-  res.send(req.user);
+  res.redirect('/');
 });
 
 authRouter.get('/api/current_user', (req, res) => {
